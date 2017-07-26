@@ -9,10 +9,12 @@ before_install:
   - sudo apt-get -y install lxd lxc-dev
   - sudo lxd init --auto;
   - sudo usermod -a -G lxd travis
+  - sudo su travis -c 'lxc network create lxdbr0';
+  - sudo su travis -c 'lxc network attach-profile lxdbr0 default eth0';
 install:
   - sudo pip install molecule==2.0.0.0rc11
   - sudo pip install lxc-python2
 script:
   - sudo su travis -c 'molecule create'
   - sudo su travis -c 'molecule converge'
-  - udo su travis -c 'molecule verify'
+  - sudo su travis -c 'molecule verify'
