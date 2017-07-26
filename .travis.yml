@@ -10,9 +10,9 @@ before_install:
   - sudo lxd init --auto;
   - sudo usermod -a -G lxd travis
 install:
-  - pip install molecule==2.0.0.0rc11
-  - pip install lxc-python2
+  - sudo pip install molecule==2.0.0.0rc11
+  - sudo pip install lxc-python2
 script:
-  - molecule create
-  - molecule converge
-  - molecule verify
+  - sudo su travis -c 'molecule create'
+  - sudo su travis -c 'molecule converge'
+  - udo su travis -c 'molecule verify'
