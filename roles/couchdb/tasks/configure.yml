@@ -1,0 +1,31 @@
+---
+- name: prepare couchdb build
+  shell: "{{ couchdb_workspace }}/{{ couchdb_version_directory }}/configure"
+  args:
+    chdir: "{{ couchdb_workspace }}/{{ couchdb_version_directory }}"
+
+- name: release couchdb
+  make:
+    chdir: "{{ couchdb_workspace }}/{{ couchdb_version_directory }}"
+    target: release
+
+- name: install couchdb
+  command: mv "{{ couchdb_workspace }}/{{ couchdb_version_directory }}/rel/couchdb" /home/
+
+- name: set permission for directory /home/couchdb/
+  file:
+    path: "/home/couchdb/"
+    owner: couchdb
+    group: couchdb
+    state: directory
+    recurse: yes
+    mode: 0755
+
+- name: set permission for directory /home/couchdb/etc/
+  file:
+    path: "/home/couchdb/etc"
+    owner: couchdb
+    group: couchdb
+    state: directory
+    recurse: yes
+    mode: 0644

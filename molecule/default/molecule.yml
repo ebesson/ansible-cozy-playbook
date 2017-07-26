@@ -1,0 +1,23 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: lxd
+lint:
+  name: yamllint
+platforms:
+  - name: cozy-instance
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  env:
+    ANSIBLE_ROLES_PATH: ${PWD}/roles:${PWD}/roles-dependencies
+scenario:
+  name: default
+verifier:
+  name: testinfra
+  options:
+    junit-xml: report.xml
+  lint:
+    name: flake8

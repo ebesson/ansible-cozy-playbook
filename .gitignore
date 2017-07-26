@@ -1,0 +1,7 @@
+*.retry
+.molecule/
+.vscode/
+roles-dependencies/
+*.pyc
+report.xml
+.cache

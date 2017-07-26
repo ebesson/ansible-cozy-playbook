@@ -1,0 +1,24 @@
+---
+- name: Ensure couchdb is restarted and set to start on boot.
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    enabled: true
+    name: couchdb
+  tags:
+    - role::couchdb
+
+- name: Start service couchdb
+  service:
+    name: couchdb
+    state: started
+  tags:
+    - role::couchdb
+
+- name: Make sure Couchdb is responding on the configured port
+  wait_for:
+    port: 5984
+    delay: 3
+    timeout: 90
+  tags:
+    - role::couchdb
