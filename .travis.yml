@@ -15,6 +15,7 @@ install:
   - sudo pip install molecule==2.0.1
   - sudo pip install lxc-python2
 script:
+  - sudo su travis -c 'molecule lint'
   - sudo su travis -c 'molecule create'
   - sudo su travis -c 'molecule converge'
   - sudo su travis -c 'molecule verify'
