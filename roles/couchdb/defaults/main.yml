@@ -3,5 +3,5 @@ coucdhdb_state: present
 couchdb_workspace: /root
 couchdb_version: "2.0.0"
 couchdb_version_directory: "apache-couchdb-{{ couchdb_version }}"
-couchdb_download_validate_certs: yes
+couchdb_download_validate_certs: no
 couchdb_download_url: "https://dist.apache.org/repos/dist/release/couchdb/source/{{ couchdb_version }}/apache-couchdb-{{ couchdb_version }}.tar.gz"

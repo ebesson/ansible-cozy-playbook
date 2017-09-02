@@ -4,7 +4,7 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - curl 
+    - curl
     - net-tools
     - nginx
     - sudo
