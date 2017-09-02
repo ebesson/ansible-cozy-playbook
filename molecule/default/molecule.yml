@@ -7,12 +7,16 @@ lint:
   name: yamllint
 platforms:
   - name: cozy-instance
+    groups:
+      - cozy
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
   env:
     ANSIBLE_ROLES_PATH: ${PWD}/roles:${PWD}/roles-dependencies
+  playbooks:
+    converge: ../../cozy.yml
 scenario:
   name: default
 verifier:
