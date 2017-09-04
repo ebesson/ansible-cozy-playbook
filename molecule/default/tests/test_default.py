@@ -27,6 +27,7 @@ def test_couchdb(host):
     assert couchdb.is_running
     assert couchdb.is_enabled
 
+
 def test_cozy(host):
 
     cozy = host.service("cozy")
