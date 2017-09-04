@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Cozy service
+After=network.target
+
+[Service]
+Type=simple
+User=cozy
+ExecStart=/usr/local/bin/cozy-stack serve --log-level info --host 0.0.0.0 >> /var/log/cozy/cozy.log 2>> /var/log/cozy/cozy-err.log
+Restart=always

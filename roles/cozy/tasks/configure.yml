@@ -1,0 +1,25 @@
+---
+- name: configure | create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: cozy
+    group: cozy
+  with_items:
+    - "/var/lib/cozy"
+    - "/etc/cozy"
+- name: configure | deploy cozy configuration
+  template:
+    src: etc/cozy/cozy.yml.j2
+    dest: /etc/cozy/cozy.yml
+    owner: cozy
+    group: cozy
+
+- name: configure | Copy cozy systemd unit file into place (for systemd systems)
+  template:
+    src: etc/systemd/system/cozy.service.j2
+    dest: /etc/systemd/system/cozy.service
+    owner: root
+    group: root
+    mode: 0755
+  when: "ansible_service_mgr == 'systemd'"

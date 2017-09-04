@@ -7,7 +7,7 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 
 def test_common_packages(host):
-    
+
     assert host.package("curl").is_installed
     assert host.package("net-tools").is_installed
     assert host.package("nginx").is_installed
@@ -22,7 +22,13 @@ def test_common_packages(host):
 
 
 def test_couchdb(host):
-    
+
     couchdb = host.service("couchdb")
     assert couchdb.is_running
     assert couchdb.is_enabled
+
+def test_cozy(host):
+
+    cozy = host.service("cozy")
+    assert cozy.is_running
+    assert cozy.is_enabled

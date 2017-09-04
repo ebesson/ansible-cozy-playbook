@@ -1,0 +1,114 @@
+# {{ ansible_managed }}
+{% raw %}
+# cozy-stack configuration file
+
+# server host - flags: --host
+host: localhost
+# server port - flags: --port -p
+port: 8080
+
+# how to structure the subdomains for apps - flags: --subdomains
+# values:
+#  - nested, like https://<app>.<user>.<domain>/ (well suited for self-hosted with Let's Encrypt)
+#  - flat, like https://<user>-<app>.<domain>/ (easier when using wildcard TLS certificate)
+subdomains: nested
+
+# path to the directory with the assets - flags: --assets
+# default is to use the assets packed in the binary
+assets: ""
+
+admin:
+  # server host - flags: --admin-host
+  host: localhost
+  # server port - flags: --admin-port
+  port: 6060
+
+fs:
+  # file system url - flags: --fs-url
+  # default url is the directory relative to the binary: ./storage
+
+  url: file://localhost/var/lib/cozy
+  # url: swift://openstack/?UserName={{ .Env.OS_USERNAME }}&Password={{ .Env.OS_PASSWORD }}&ProjectName={{ .Env.OS_PROJECT_NAME }}&UserDomainName={{ .Env.OS_USER_DOMAIN_NAME }}
+
+couchdb:
+  # CouchDB URL - flags: --couchdb-url
+  url: http://localhost:5984/
+
+cache:
+  # url: redis://localhost:6379/1
+
+lock:
+  # url: redis://localhost:6379/2
+
+sessions:
+  # url: redis://localhost:6379/3
+
+downloads:
+  # url: redis://localhost:6379/4
+
+jobs:
+  workers: 1
+  # url: redis://localhost:6379/5
+
+konnectors:
+  cmd: ./scripts/konnector-node-run.sh # run connectors with node
+  # cmd: ./scripts/konnector-rkt-run.sh # run connectors with rkt
+  # cmd: ./scripts/konnector-nsjail-run.sh # run connectors with nsjail
+  # oauthstate: redis://localhost:6379/6
+
+realtime:
+  # url: redis://localhost:6379/7
+
+mail:
+  # mail noreply address - flags: --mail-noreply-address
+  noreply_address: noreply@localhost
+  # mail smtp host - flags: --mail-host
+  host: smtp.home
+  # mail smtp port - flags: --mail-port
+  port: 465
+  # mail smtp username - flags: --mail-username
+  username: user
+  # mail smtp password - flags: --mail-password
+  password: pass
+  # disable mail tls - flags: --mail-disable-tls
+  disable_tls: false
+  # skip the certificate validation (may be useful on localhost)
+  skip_certificate_validation: false
+
+# directory with the hooks scripts - flags: --hooks
+hooks: ./scripts/hooks
+
+log:
+  # logger level (debug, info, warning, panic, fatal) - flags: --log-level
+  level: info
+  # send logs to the local syslog - flags: --log-syslog
+  syslog: false
+
+# It is possible to customize some behaviors of cozy-stack in function of the
+# context of an instance (the context field of the settings document of this
+# instance). Here, the "beta" context is customized with.
+contexts:
+  beta:
+    # Redirect to a specific route of cozy-collect after the onboarding
+    onboarded_redirection: collect/#/discovery/?intro
+    # Redirect to the photos application after login
+    default_redirection: drive/#/files
+    # Allow to customize the cozy-bar link to the help
+    help_link: https://forum.cozy.io/
+    # Coming soon applications listed in the Cozy Bar's app panel
+    # Will be removed when the store will be available.
+    coming_soon:
+      store:
+        editor: 'Cozy'
+        name: 'Store'
+        slug: 'store'
+        category: 'cozy'
+      bank:
+        editor: 'Cozy'
+        name: 'Bank'
+        slug: 'bank'
+        category: 'partners'
+    claudy_actions:
+        - desktop
+        - mobile
+{% endraw %}

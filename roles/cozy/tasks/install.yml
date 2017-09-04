@@ -1,0 +1,28 @@
+---
+- name: install | create cozy group
+  group:
+    name: cozy
+    state: present
+
+- name: install | create cozy user
+  user:
+    name: cozy
+    shell: /bin/bash
+    group: cozy
+    createhome: no
+    state: present
+
+- name: install | download cosy-stack
+  get_url:
+    url: "{{ cozy_download_url }}"
+    dest: "/usr/local/bin/cozy-stack"
+    mode: "u+rwx"
+    owner: cozy
+    group: cozy
+
+- name: create log directory
+  file:
+    path: /var/log/cozy
+    state: directory
+    owner: cozy
+    group: cozy
