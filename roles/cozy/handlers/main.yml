@@ -1,0 +1,5 @@
+---
+- name: restart_cozy
+  systemd:
+    name: cozy
+    state: restarted

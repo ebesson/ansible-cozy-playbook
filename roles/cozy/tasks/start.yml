@@ -1,7 +1,13 @@
 ---
 - name: Ensure cozy is restarted and set to start on boot.
   systemd:
-    state: restarted
+    state: started
     daemon_reload: "yes"
     enabled: true
     name: cozy
+
+- name: Make sure cozy is responding
+  wait_for:
+    port: 8080
+    delay: 3
+    timeout: 90

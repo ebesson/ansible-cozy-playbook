@@ -1,3 +1,17 @@
 ---
 cozy_state: present
 cozy_download_url: https://github.com/cozy/cozy-stack/releases/download/2017M2-alpha/cozy-stack-linux-amd64-2017M2-alpha
+cozy_install_from_sources: True
+cozy_install_from_sources_packages:
+  - ca-certificates
+  - curl
+  - net-tools
+  - build-essential
+  - pkg-config
+  - erlang
+  - libicu-dev
+  - libmozjs185-dev
+  - libcurl4-openssl-dev
+  - git
+cozy_install_from_sources_golang_url: https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz
+cozy_binary: /usr/local/bin/cozy-stack
