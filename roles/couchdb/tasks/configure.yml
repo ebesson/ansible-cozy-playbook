@@ -3,14 +3,17 @@
   shell: "{{ couchdb_workspace }}/{{ couchdb_version_directory }}/configure"
   args:
     chdir: "{{ couchdb_workspace }}/{{ couchdb_version_directory }}"
+  when: not couchdb_installed
 
 - name: release couchdb
   make:
     chdir: "{{ couchdb_workspace }}/{{ couchdb_version_directory }}"
     target: release
+  when: not couchdb_installed
 
 - name: install couchdb
-  command: mv "{{ couchdb_workspace }}/{{ couchdb_version_directory }}/rel/couchdb" /home/
+  command: "cp -R {{ couchdb_workspace }}/{{ couchdb_version_directory }}/rel/ /home/couchdb"
+  when: not couchdb_installed
 
 - name: set permission for directory /home/couchdb/
   file:
@@ -20,6 +23,10 @@
     state: directory
     recurse: yes
     mode: 0755
+  # idempotence does not work with relative notation
+  # yet we need it to leverage the capital X and make sure only directories
+  # are made executable
+  changed_when: False
 
 - name: set permission for directory /home/couchdb/etc/
   file:
@@ -29,3 +36,7 @@
     state: directory
     recurse: yes
     mode: 0644
+  # idempotence does not work with relative notation
+  # yet we need it to leverage the capital X and make sure only directories
+  # are made executable
+  changed_when: False

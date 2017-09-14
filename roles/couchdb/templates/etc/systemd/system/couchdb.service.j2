@@ -5,6 +5,6 @@ After=network.target
 
 [Service]
 Type=simple
-User=root
-ExecStart=/home/couchdb/bin/couchdb -o /dev/stdout -e /dev/stderr
+User=couchdb
+ExecStart=/home/couchdb/couchdb/bin/couchdb -o /dev/stdout -e /dev/stderr
 Restart=always

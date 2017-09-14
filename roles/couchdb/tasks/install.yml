@@ -1,18 +1,27 @@
 ---
-- name: download Couchdb {{ couchdb_version }}
+- name: install | check if couchdb is already installed
+  stat:
+    path: "/home/couchdb/couchdb/bin/couchdb"
+  register: couchdb_binary_stat
+
+- set_fact:
+    couchdb_installed: "{{ couchdb_binary_stat.stat.exists}}"
+
+- name: install | download Couchdb {{ couchdb_version }}
   unarchive:
     src: "{{ couchdb_download_url }}"
     validate_certs: "{{ couchdb_download_validate_certs }}"
     dest: "{{ couchdb_workspace }}"
     remote_src: yes
     creates: "{{ couchdb_workspace }}/COPYING-{{ couchdb_version }}"
+  when: not couchdb_installed
 
-- name: create couchdb group
+- name: install | create couchdb group
   group:
     name: couchdb
     state: present
 
-- name: create couchdb user
+- name: install | create couchdb user
   user:
     name: couchdb
     shell: /bin/bash
@@ -20,14 +29,14 @@
     createhome: no
     state: present
 
-- name: create log directory
+- name: install | create log directory
   file:
     path: /var/log/couchdb
     state: directory
     owner: couchdb
     group: couchdb
 
-- name: Copy Couchdb systemd unit file into place (for systemd systems)
+- name: install | Copy Couchdb systemd unit file into place (for systemd systems)
   template:
     src: etc/systemd/system/couchdb.service.j2
     dest: /etc/systemd/system/couchdb.service

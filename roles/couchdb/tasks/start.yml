@@ -1,13 +1,4 @@
 ---
-- name: Ensure couchdb is restarted and set to start on boot.
-  systemd:
-    state: restarted
-    daemon_reload: "yes"
-    enabled: true
-    name: couchdb
-  tags:
-    - role::couchdb
-
 - name: Start service couchdb
   service:
     name: couchdb
