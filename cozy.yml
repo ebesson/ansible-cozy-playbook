@@ -12,3 +12,4 @@
     - common
     - couchdb
     - cozy
+    - nginx

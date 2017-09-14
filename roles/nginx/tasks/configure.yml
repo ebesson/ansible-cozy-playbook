@@ -1,0 +1,24 @@
+---
+- name: configure| generate certificate
+  command: >
+    openssl req -new -nodes -x509 -subj "/CN={*.{{ nginx_domain }}}"
+    -days 1095 -keyout /etc/cozy/{{ nginx_domain }}.key
+    -out /etc/cozy/{{ nginx_domain }}.crt -extensions v3_ca
+  args:
+    creates: /etc/cozy/{{ nginx_domain }}.key
+
+- name: configure | configure virtual host template
+  template:
+    src: etc/nginx/sites-available/cozy.conf.j2
+    dest: /etc/nginx/sites-available/{{ nginx_domain }}.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload_nginx
+
+- name: configure | enable virtual host template
+  file:
+    src: ../sites-available/{{ nginx_domain }}.conf
+    dest: /etc/nginx/sites-enabled/{{ nginx_domain }}.conf
+    state: link
+  notify: reload_nginx

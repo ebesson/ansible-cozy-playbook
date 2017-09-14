@@ -1,14 +1,14 @@
 ---
-- name: Install base packages
+- name: main | install base packages
   apt:
     name: "{{ item }}"
     state: present
+    update_cache: yes
   with_items:
     - curl
     - net-tools
     - nginx
     - sudo
-    - vim-tiny
     - build-essential
     - pkg-config
     - erlang

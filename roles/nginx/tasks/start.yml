@@ -1,0 +1,7 @@
+---
+- name: Ensure nginx is started and set to start on boot.
+  systemd:
+    state: started
+    daemon_reload: "yes"
+    enabled: true
+    name: cozy
