@@ -12,7 +12,7 @@ before_install:
   - sudo su travis -c 'lxc network create lxdbr0';
   - sudo su travis -c 'lxc network attach-profile lxdbr0 default eth0';
 install:
-  - sudo pip install molecule==2.0.1
+  - sudo pip install molecule==2.0.4
   - sudo pip install lxc-python2
 script:
   - sudo su travis -c 'molecule lint'
