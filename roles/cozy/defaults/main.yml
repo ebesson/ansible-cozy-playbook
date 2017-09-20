@@ -13,5 +13,6 @@ cozy_install_from_sources_packages:
   - libmozjs185-dev
   - libcurl4-openssl-dev
   - git
+  - imagemagick
 cozy_install_from_sources_golang_url: https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz
 cozy_binary: /usr/local/bin/cozy-stack
