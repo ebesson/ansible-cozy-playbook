@@ -9,6 +9,8 @@ platforms:
   - name: cozy-instance
     groups:
       - cozy
+      - molecule
+      - all
 provisioner:
   name: ansible
   lint:
@@ -17,6 +19,9 @@ provisioner:
     ANSIBLE_ROLES_PATH: ${PWD}/roles:${PWD}/roles-dependencies
   playbooks:
     converge: ../../cozy.yml
+  inventory:
+    links:
+      group_vars: ../../../group_vars/
 scenario:
   name: default
 verifier:

@@ -1,0 +1,4 @@
+# group_vars/all
+
+nginx_domain: "{{ fqdn }}"
+postfix_fqdn: "{{ fqdn }}"

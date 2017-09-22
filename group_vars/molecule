@@ -1,0 +1,5 @@
+# group_vars/molecule
+---
+secret_file: secrets/molecule.yml
+
+fqdn: cozy.tools
