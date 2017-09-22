@@ -5,6 +5,10 @@
     - name: Install python for Ansible
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal sudo)
       changed_when: False
+    - name: Load secrets
+      include_vars:
+        file: "{{ secret_file }}"
+      when: secret_file is defined
 
 - hosts: cozy
   become: True
