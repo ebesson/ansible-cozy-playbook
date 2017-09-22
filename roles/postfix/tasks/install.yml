@@ -1,0 +1,25 @@
+---
+- name: install | set Postfix option hostname
+  debconf:
+    name: postifx
+    question: "postfix/mailname"
+    value: "{{ postfix_fqdn }}"
+    vtype: string
+
+- name: install | set Postfix option type as internet site
+  debconf:
+    name: postfix
+    question: "postfix/main_mailer_type"
+    value: "'Internet Site'"
+    vtype: string
+
+- name: install | install Postfix packages
+  apt:
+    package: "{{ item }}"
+    state: installed
+    force: yes
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items:
+    - postfix
+    - mailutils
