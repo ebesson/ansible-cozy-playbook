@@ -54,7 +54,7 @@
 - name: deploy fresh cozy-stack
   copy:
     src: "/root/go/bin/cozy-stack"
-    dest: "/usr/local/bin/cozy-stack"
+    dest: "{{ cozy_binary }}"
     mode: "u+xw,g+rx,o+rx"
     remote_src: True
   when: cozy_install_from_sources and not cozy_installed
