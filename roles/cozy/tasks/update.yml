@@ -1,0 +1,14 @@
+---
+- include: stop.yml
+
+- name: update | remove cozy binary
+  file:
+    path: "{{ cozy_binary }}"
+    state: absent
+
+- name: update | remove cozy source
+  file:
+    path: "/root/go"
+    state: absent
+
+- include: present.yml
