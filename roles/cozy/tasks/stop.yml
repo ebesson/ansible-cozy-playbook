@@ -1,0 +1,5 @@
+---
+- name: Stop cozy service.
+  service:
+    state: stopped
+    name: cozy
