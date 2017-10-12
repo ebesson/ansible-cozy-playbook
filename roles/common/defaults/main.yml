@@ -1,1 +1,3 @@
 ---
+common_cozy_channel: stable   # stable testing unstable
+common_cozy_gpg_key: cozy   # for unstable channel use cozy-nightly value

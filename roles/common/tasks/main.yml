@@ -6,12 +6,18 @@
     update_cache: yes
   with_items:
     - curl
-    - net-tools
-    - nginx
-    - sudo
-    - build-essential
-    - pkg-config
-    - erlang
-    - libicu-dev
-    - libmozjs185-dev
-    - libcurl4-openssl-dev
+    - apt-transport-https
+    - vim
+
+- name: main | add Cozy key
+  shell: >
+    curl https://apt.cozy.io/{{common_cozy_gpg_key }}.gpg | apt-key --keyring /etc/apt/trusted.gpg.d/{{ common_cozy_gpg_key }}.gpg add -
+  args:
+    creates: "/etc/apt/trusted.gpg.d/{{ common_cozy_gpg_key }}.gpg"
+  tags:
+    - skip_ansible_lint
+
+- name: main | add Cozy Debian repository
+  apt_repository:
+    repo: "deb https://apt.cozy.io/{{ ansible_distribution  | lower }} {{ ansible_distribution_release }} {{ common_cozy_channel }}"
+    state: present
