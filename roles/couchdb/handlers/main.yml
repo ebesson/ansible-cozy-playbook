@@ -1,7 +1,11 @@
 ---
+- name: reconfigure_couchdb
+  command: dpkg-reconfigure -f noninteractive cozy-couchdb
+  notify: restart_couchdb
+
 - name: restart_couchdb
   systemd:
     state: restarted
     daemon_reload: "yes"
     enabled: true
-    name: couchdb
+    name: cozy-couchdb

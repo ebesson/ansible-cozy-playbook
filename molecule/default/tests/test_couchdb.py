@@ -6,6 +6,10 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
 
+def test_couchdb_package(host):
+    assert host.package("cozy-couchdb").is_installed
+
+
 def test_couchdb_service(host):
 
     couchdb = host.service("couchdb")

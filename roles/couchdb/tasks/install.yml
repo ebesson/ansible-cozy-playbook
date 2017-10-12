@@ -1,46 +1,28 @@
 ---
-- name: install | check if couchdb is already installed
-  stat:
-    path: "/home/couchdb/couchdb/bin/couchdb"
-  register: couchdb_binary_stat
+- name: install | check if cozy-couchdb is already installed
+  shell: "dpkg -l cozy-couchdb > /dev/null 2> /dev/null"
+  changed_when: false
+  register: couchdb_installed
+  ignore_errors: true
 
-- set_fact:
-    couchdb_installed: "{{ couchdb_binary_stat.stat.exists}}"
-
-- name: install | download Couchdb {{ couchdb_version }}
-  unarchive:
-    src: "{{ couchdb_download_url }}"
-    validate_certs: "{{ couchdb_download_validate_certs }}"
-    dest: "{{ couchdb_workspace }}"
-    remote_src: yes
-    creates: "{{ couchdb_workspace }}/COPYING-{{ couchdb_version }}"
-  when: not couchdb_installed
-
-- name: install | create couchdb group
-  group:
+- name: install | cozy-couchdb debconf
+  debconf:
     name: couchdb
+    question: "{{ item.question }}"
+    value: "{{ item.value }}"
+    vtype: "{{ item.vtype }}"
+  notify: reconfigure_couchdb
+  no_log: true
+  with_items:
+    - { "question": "couchdb/mode", "vtype": "select", "value": "{{ couchdb_mode }}" }
+    - { "question": "couchdb/bindaddress", "vtype": "string", "value": "{{ couchdb_bind_address }}" }
+    - { "question": "couchdb/adminpass", "vtype": "password", "value": "{{ couchdb_admin_password }}" }
+    - { "question": "couchdb/adminpass_again", "vtype": "password", "value": "{{ couchdb_admin_password }}" }
+  when: couchdb_installed|failed
+
+- name: install | install cozy-couchdb
+  apt:
+    name: cozy-couchdb
     state: present
-
-- name: install | create couchdb user
-  user:
-    name: couchdb
-    shell: /bin/bash
-    group: couchdb
-    createhome: no
-    state: present
-
-- name: install | create log directory
-  file:
-    path: /var/log/couchdb
-    state: directory
-    owner: couchdb
-    group: couchdb
-
-- name: install | Copy Couchdb systemd unit file into place (for systemd systems)
-  template:
-    src: etc/systemd/system/couchdb.service.j2
-    dest: /etc/systemd/system/couchdb.service
-    owner: root
-    group: root
-    mode: 0755
-  when: "ansible_service_mgr == 'systemd'"
+    update_cache: yes
+  when: couchdb_installed

@@ -1,7 +1,7 @@
 ---
 - name: Start service couchdb
   service:
-    name: couchdb
+    name: cozy-couchdb
     state: started
   tags:
     - role::couchdb
