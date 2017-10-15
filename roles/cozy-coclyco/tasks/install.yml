@@ -1,0 +1,5 @@
+---
+- name: install | install cozy-coclyco
+  apt:
+    name: cozy-coclyco
+    state: present
