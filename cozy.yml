@@ -13,4 +13,5 @@
     - couchdb
     - cozy
     - nginx
+    - cozy-coclyco
     - postfix
