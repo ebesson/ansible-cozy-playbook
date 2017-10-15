@@ -5,7 +5,8 @@ Requires=couchdb.service
 
 [Service]
 Type=simple
-User=cozy
-ExecStart=/usr/local/bin/cozy-stack serve --log-level info --host 0.0.0.0
+User=cozy-stack
+ExecStart=
+
 Restart=on-failure
 RestartSec=10

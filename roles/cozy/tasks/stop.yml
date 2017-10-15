@@ -2,4 +2,4 @@
 - name: Stop cozy service.
   service:
     state: stopped
-    name: cozy
+    name: cozy-stack

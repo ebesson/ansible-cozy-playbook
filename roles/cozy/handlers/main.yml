@@ -1,5 +1,9 @@
 ---
+- name: reconfigure_cosy_stack
+  command: dpkg-reconfigure -f noninteractive cozy-stack
+  notify: restart_cozy
+
 - name: restart_cozy
   systemd:
-    name: cozy
+    name: cozy-stack
     state: restarted

@@ -1,67 +1,36 @@
 ---
-- name: install | create cozy group
-  group:
-    name: cozy
-    state: present
+- name: install | check if cozy-stack is already installed
+  shell: "dpkg -l cozy-stack > /dev/null 2> /dev/null"
+  changed_when: false
+  register: cozy_stack_installed
+  ignore_errors: true
 
-- name: install | create cozy user
-  user:
-    name: cozy
-    shell: /bin/bash
-    group: cozy
-    createhome: no
-    state: present
+- name: install | cosy-stack debconf
+  debconf:
+    name: cozy-stack
+    question: "{{ item.question }}"
+    value: "{{ item.value | quote }}"
+    vtype: "{{ item.vtype }}"
+  notify: reconfigure_cosy_stack
+  no_log: true
+  when: cozy_stack_installed|failed
+  with_items:
+    - { "question": "cozy-stack/couchdb/address", "vtype": "string", "value": "{{ cozystack_couchdb_address }}" }
+    - { "question": "cozy-stack/couchdb/nodename", "vtype": "string", "value": "{{ cozystack_couchdb_nodename }}" }
+    - { "question": "cozy-stack/couchdb/admin/user", "vtype": "string", "value": "{{ cozystack_couchdb_admin_user }}" }
+    - { "question": "cozy-stack/couchdb/admin/password", "vtype": "password", "value": "{{ cozystack_couchdb_admin_password }}" }
+    - { "question": "cozy-stack/couchdb/admin/password_again", "vtype": "password", "value": "{{ cozystack_couchdb_admin_password }}" }
+    - { "question": "cozy-stack/couchdb/cozy/user", "vtype": "string", "value": "{{ cozystack_couchdb_cozy_user }}" }
+    - { "question": "cozy-stack/couchdb/cozy/password", "vtype": "password", "value": "{{ cozystack_couchdb_cozy_password }}" }
+    - { "question": "cozy-stack/couchdb/cozy/password_again", "vtype": "password", "value": "{{ cozystack_couchdb_cozy_password }}" }
+    - { "question": "cozy-stack/cozy/password", "vtype": "password", "value": "{{ cozystack_cozy_password }}" }
+    - { "question": "cozy-stack/cozy/password_again", "vtype": "password", "value": "{{ cozystack_cozy_password }}" }
+    - { "question": "cozy-stack/address", "vtype": "string", "value": "{{ cozystack_address }}" }
+    - { "question": "cozy-stack/port", "vtype": "string", "value": "{{ cozystack_port }}" }
+    - { "question": "cozy-stack/admin/address", "vtype": "string", "value": "{{ cozystack_admin_address }}" }
+    - { "question": "cozy-stack/admin/port", "vtype": "string", "value": "{{ cozystack_admin_port }}" }
 
-- name: install | check if cozy is already installed
-  stat:
-    path: "{{ cozy_binary }}"
-  register: cozy_binary_stat
-
-- set_fact:
-    cozy_installed: "{{ cozy_binary_stat.stat.exists}}"
-
-- name: install | download cosy-stack
-  get_url:
-    url: "{{ cozy_download_url }}"
-    dest: "{{ cozy_binary }}"
-    mode: "u+rwx"
-    owner: cozy
-    group: cozy
-  when: not cozy_install_from_sources and not cozy_installed
-
-- name: install dependencies so as to build from sources
+- name: install | install cosy-stack
   apt:
-    name: "{{ item }}"
+    name: cozy-stack
     state: present
-    update_cache: yes
-  with_items: "{{ cozy_install_from_sources_packages }}"
-  when: cozy_install_from_sources and not cozy_installed
-
-- name: install golang
-  unarchive:
-    src: "{{ cozy_install_from_sources_golang_url }}"
-    dest: "/usr/local"
-    remote_src: True
-    creates: /usr/local/go
-  when: cozy_install_from_sources and not cozy_installed
-
-- name: build cozy-stack from sources
-  shell: "PATH=$PATH:/usr/local/go/bin go get -u github.com/cozy/cozy-stack"
-  args:
-    chdir: /root
-  when: cozy_install_from_sources and not cozy_installed
-
-- name: deploy fresh cozy-stack
-  copy:
-    src: "/root/go/bin/cozy-stack"
-    dest: "{{ cozy_binary }}"
-    mode: "u+xw,g+rx,o+rx"
-    remote_src: True
-  when: cozy_install_from_sources and not cozy_installed
-
-- name: create log directory
-  file:
-    path: /var/log/cozy
-    state: directory
-    owner: cozy
-    group: cozy
