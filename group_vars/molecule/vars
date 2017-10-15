@@ -1,0 +1,14 @@
+---
+fqdn: cozy.tools
+common_cozy_channel: unstable
+#nightly
+common_cozy_gpg_key: cozy
+
+couchdb_admin_password: "{{ vault_couchdb_admin_password }}"
+
+cozystack_couchdb_admin_user: admin
+cozystack_couchdb_admin_password: "{{ vault_couchdb_admin_password }}"
+cozystack_couchdb_cozy_user: cozy
+cozystack_couchdb_cozy_password: "{{ vault_cozystack_couchdb_cozy_password }}"
+
+
