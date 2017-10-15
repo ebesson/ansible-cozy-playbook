@@ -1,5 +1,5 @@
 # Ansible playbook for Cozy
-Reference see: https://docs.cozy.io/en/install/manual/
+Reference see: https://docs.cozy.io/en/install/debian/
 
 
 ### Developpement status
