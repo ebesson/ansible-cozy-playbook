@@ -4,4 +4,4 @@
     state: started
     daemon_reload: "yes"
     enabled: true
-    name: cozy
+    name: nginx
