@@ -11,7 +11,7 @@
 
 - name: main | add Cozy key
   shell: >
-    curl https://apt.cozy.io/{{common_cozy_gpg_key }}.gpg | apt-key --keyring /etc/apt/trusted.gpg.d/{{ common_cozy_gpg_key }}.gpg add -
+    curl https://apt.cozy.io/nightly/{{common_cozy_gpg_key }}.gpg | apt-key --keyring /etc/apt/trusted.gpg.d/{{ common_cozy_gpg_key }}.gpg add -
   args:
     creates: "/etc/apt/trusted.gpg.d/{{ common_cozy_gpg_key }}.gpg"
   tags:
@@ -19,5 +19,5 @@
 
 - name: main | add Cozy Debian repository
   apt_repository:
-    repo: "deb https://apt.cozy.io/{{ ansible_distribution  | lower }} {{ ansible_distribution_release }} {{ common_cozy_channel }}"
+    repo: "deb https://apt.cozy.io/nightly/{{ ansible_distribution  | lower }} {{ ansible_distribution_release }} {{ common_cozy_channel }}"
     state: present
