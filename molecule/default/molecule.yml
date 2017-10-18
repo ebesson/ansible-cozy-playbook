@@ -6,11 +6,18 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: cozy-instance
+  # - name: cozy-instance-xenial
+  # groups:
+  #   - cozy
+  #   - molecule
+  #   - all
+  # lxd_image: ubuntu/xenial/amd64
+  - name: cozy-instance-stretch
     groups:
       - cozy
       - molecule
       - all
+    lxd_image: debian/stretch/amd64
 provisioner:
   name: ansible
   lint:

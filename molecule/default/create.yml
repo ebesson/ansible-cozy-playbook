@@ -17,7 +17,7 @@
           mode: pull
           server: https://images.linuxcontainers.org
           protocol: lxd
-          alias: debian/stretch/amd64
+          alias: "{{ item.lxd_image }}"
         profiles: ["default"]
         wait_for_ipv4_addresses: True
         timeout: 600
