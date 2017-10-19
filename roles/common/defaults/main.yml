@@ -1,3 +1,4 @@
 ---
+common_cozy_use_nightly_build: False
+common_cozy_repository_base_url: https://apt.cozy.io
 common_cozy_channel: stable   # stable testing unstable
-common_cozy_gpg_key: cozy   # for unstable channel use cozy-nightly value
