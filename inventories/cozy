@@ -1,0 +1,6 @@
+# inventories/cozy
+[cozy]
+# add your server IP
+
+[cozy:children]
+cozy
