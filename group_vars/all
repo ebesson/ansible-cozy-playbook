@@ -3,7 +3,7 @@
 couchdb_admin_password: "{{ vault_couchdb_admin_password }}"
 cozystack_couchdb_admin_password: "{{ vault_couchdb_admin_password }}"
 cozystack_couchdb_cozy_password: "{{ vault_cozystack_couchdb_cozy_password }}"
-vault_cozystack_cozy_password: "{{ vault_cozystack_cozy_password }}"
+cozystack_cozy_password: "{{ vault_cozystack_cozy_password }}"
 
 nginx_domain: "{{ fqdn }}"
 postfix_fqdn: "{{ fqdn }}"

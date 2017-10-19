@@ -10,6 +10,7 @@
   assert:
     that:
       - "cozystack_cozy_password | trim != ''"
+      - "cozystack_cozy_password is not none"
       - "cozystack_cozy_password is defined"
     msg: "'cozystack_cozy_password' must be define"
 
