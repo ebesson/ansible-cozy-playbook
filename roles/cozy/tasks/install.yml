@@ -1,4 +1,18 @@
 ---
+- name: Check cozystack_couchdb_cozy_password
+  assert:
+    that:
+      - "cozystack_couchdb_cozy_password | trim != ''"
+      - "cozystack_couchdb_cozy_password is defined"
+    msg: "'cozystack_couchdb_cozy_password' must be define"
+
+- name: Check cozystack_couchdb_cozy_password
+  assert:
+    that:
+      - "cozystack_cozy_password | trim != ''"
+      - "cozystack_cozy_password is defined"
+    msg: "'cozystack_cozy_password' must be define"
+
 - name: install | check if cozy-stack is already installed
   shell: "dpkg -l cozy-stack > /dev/null 2> /dev/null"
   changed_when: false
