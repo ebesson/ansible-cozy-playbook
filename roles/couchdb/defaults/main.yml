@@ -2,4 +2,4 @@
 coucdhdb_state: present
 couchdb_mode: standalone
 couchdb_bind_address: "127.0.0.1"
-couchdb_admin_password: admin
+couchdb_admin_password:

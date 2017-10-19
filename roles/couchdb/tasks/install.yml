@@ -1,4 +1,11 @@
 ---
+- name: Check couchdb_admin_password
+  assert:
+    that:
+      - "couchdb_admin_password | trim != ''"
+      - "couchdb_admin_password is defined"
+    msg: "'couchdb_admin_password' must be define"
+
 - name: install | check if cozy-couchdb is already installed
   shell: "dpkg -l cozy-couchdb > /dev/null 2> /dev/null"
   changed_when: false
