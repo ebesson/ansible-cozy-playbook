@@ -2,3 +2,4 @@
 nginx_state: present
 nginx_listen_port: 443
 nginx_domain:
+nginx_template: default.conf.j2

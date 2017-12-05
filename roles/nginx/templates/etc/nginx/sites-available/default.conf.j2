@@ -1,0 +1,16 @@
+# {{ ansible_managed }}
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	root /var/www/html;
+	server_name _;
+
+	location /.well-known/acme-challenge/ {
+		alias /etc/ssl/private/acme-challenge/;
+	}
+
+	location / {
+		return 301 https://$host$request_uri;
+	}
+}

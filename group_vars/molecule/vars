@@ -6,3 +6,5 @@ common_cozy_channel: unstable
 
 cozystack_couchdb_admin_user: admin
 cozystack_couchdb_cozy_user: cozy
+
+nginx_template: cozy.conf.j2

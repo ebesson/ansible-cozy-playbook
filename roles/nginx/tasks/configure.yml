@@ -9,7 +9,7 @@
 
 - name: configure | configure virtual host template
   template:
-    src: etc/nginx/sites-available/cozy.conf.j2
+    src: etc/nginx/sites-available/{{ nginx_template }}
     dest: /etc/nginx/sites-available/{{ nginx_domain }}.conf
     owner: root
     group: root
