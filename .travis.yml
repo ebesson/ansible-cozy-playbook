@@ -4,9 +4,8 @@ language: python
 services:
   - docker
 before_install:
-  - sudo add-apt-repository -y ppa:ubuntu-lxc/lxd-stable
   - sudo apt-get -qq update
-  - sudo apt-get -y install lxd lxc-dev
+  - sudo apt install -t trusty-backports lxd lxd-client
   - sudo lxd init --auto;
   - sudo usermod -a -G lxd travis
   - sudo su travis -c 'lxc network create lxdbr0';
