@@ -5,7 +5,7 @@ services:
   - docker
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get -y install snapd;
+  - sudo apt-get -y install lxc-dev snapd;
   - sudo snap install lxd;
   - sudo sh -c 'echo PATH=/snap/bin:$PATH >> /etc/environment';
   - while [ ! -S /var/snap/lxd/common/lxd/unix.socket ]; do echo "Waiting for LXD socket...";sleep 0.2;done;
