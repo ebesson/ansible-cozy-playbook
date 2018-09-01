@@ -1,25 +1,19 @@
 ---
 sudo: required
 language: python
-services:
-  - docker
+sudo: required
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get -y install lxc-dev snapd;
+  - sudo apt-get -qq update && sudo apt-get remove -y lxd
+  - sudo apt-get -y install snapd
   - sudo snap install lxd
-  - sudo sh -c 'echo PATH=/snap/bin:$PATH >> /etc/environment';
+  - sudo bash -c 'echo PATH=/snap/bin:$PATH >> /etc/environment'
   - while [ ! -S /var/snap/lxd/common/lxd/unix.socket ]; do echo "Waiting for LXD socket...";sleep 0.2;done;
-  - sudo lxd init --auto;
-  - sudo usermod -a -G lxd travis
-  - sudo su travis -c 'lxc network create lxdbr0';
-  - sudo su travis -c 'lxc network attach-profile lxdbr0 default eth0';
+  - sudo lxd init --auto
   - sudo mkdir -p /var/lib/lxd
   - sudo ln -s /var/snap/lxd/common/lxd/unix.socket /var/lib/lxd/unix.socket
 install:
-  - sudo pip install ansible==2.4.2.0
+  - sudo pip install molecule
   - sudo pip install testinfra==1.10.1
-  - sudo pip install pytest==3.3.0
-  - sudo pip install molecule==2.5.0
   - sudo pip install lxc-python2
 script:
-  - sudo su travis -c 'molecule test'
+  - sudo molecule test
